@@ -67,17 +67,27 @@ function install_docker_from_repo
 	
 	if [ "$package_manager" = apt ]; then
 		# SET UP THE REPOSITORY
+		# 1. Update the apt package index
 		sudo apt-get update
+		# 2. Install packages to allow apt to use a repository over HTTPS
 		sudo apt-get install -y \
 			apt-transport-https \
 			ca-certificates \
 			curl \
 			gnupg2 \
 			software-properties-common
+		# 3. Add Docker’s official GPG key
 		curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+		# 4. Use the following command to set up the stable repository. To add the nightly or test repository,
+		sudo add-apt-repository \
+		   "deb [arch=amd64] https://download.docker.com/linux/debian \
+		   $(lsb_release -cs) \
+		   stable"
 		sudo apt-key fingerprint 0EBFCD88
 		# INSTALL DOCKER ENGINE - COMMUNITY
+		# 1. Update the apt package index.
 		sudo apt-get update
+		# 2. Install the latest version of Docker Engine - Community
 		sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 	fi
 }
@@ -137,7 +147,7 @@ else
 fi
 
 
-# END
+# ENDING
 echo -e "--------------------------------------------------------"
 echo -e "View docker status: sudo systemctl status docker"
 echo -e "Start docker: sudo systemctl start docker"
