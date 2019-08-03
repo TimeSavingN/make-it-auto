@@ -32,7 +32,7 @@ function check_tool_exist
 # -------------------------------------
 
 # remove old versions
-function remove_exist_docker
+function remove_docker
 {
 	if [ "$package_manager" = yum ]; then
 		sudo yum remove docker \
@@ -62,13 +62,13 @@ function install_docker_from_repo
 			https://download.docker.com/linux/centos/docker-ce.repo
 			
 		# INSTALL DOCKER ENGINE - COMMUNITY
-		sudo yum install docker-ce docker-ce-cli containerd.io
+		sudo yum install -y docker-ce docker-ce-cli containerd.io
 	fi
 	
 	if [ "$package_manager" = apt ]; then
 		# SET UP THE REPOSITORY
 		sudo apt-get update
-		sudo apt-get install \
+		sudo apt-get install -y \
 			apt-transport-https \
 			ca-certificates \
 			curl \
@@ -78,7 +78,7 @@ function install_docker_from_repo
 		sudo apt-key fingerprint 0EBFCD88
 		# INSTALL DOCKER ENGINE - COMMUNITY
 		sudo apt-get update
-		sudo apt-get install docker-ce docker-ce-cli containerd.io
+		sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 	fi
 }
 
@@ -87,38 +87,60 @@ function install_docker_from_repo
 # main
 # -------------------------------------
 
-
-
-# check package manager
+# prepare: check package manager
 package_manager=$(get_package_manager)
 echo -e "\n\n Package manager is $package_manager ! \n\n"
 
-# install
-if [ "$is_exist" = true ]; then
-	echo -e "\n\n $tool_name tool is exist ! \n\n"
-	read "$(docker --version) is installed. Do you want to reinstaled it? (yes/no)" operation_code
-	while true; do
-		if [ "${operation_code}" = yes ]; then
+
+# operation menu
+
+echo -n "Please input your operation: 1. Install docker 2. Remove docker: " 
+read menu_code
+
+
+if [ $menu_code -eq 1 ]; then
+	# install
+	tool_name=docker
+	is_exist=$(check_tool_exist $tool_name)
+	if [ "$is_exist" = true ]; then
+		echo -e "\n\n $tool_name tool is exist ! \n\n"
+		echo -n "$(docker --version) is installed. Do you want to remove it? (yes/no) "
+		read operation_code
 		
-			remove_exist_docker
-			echo -e "\n\n Docker remove is successful ! \n\n"
+		while true; do
+			if [ "${operation_code}" = yes ]; then
+				# remove old
+				remove_docker
+				echo -e "\n\n Docker remove is successful ! \n\n"
+				# install new
+				install_docker_from_repo
+				echo -e "\n\n docker installation is successful ! \n\n"
 			
-			install_docker_from_repo
-			echo -e "\n\n docker installation is successful ! \n\n"
-		
-			break
-		fi
-		fi ["${operation_code}" = no ]; then
-			break
-		fi
-		read "$(docker --version) is installed. Do you want to reinstaled it? (yes/no)" operation_code
-	done
+				break
+			fi
+			if [ "${operation_code}" = no ]; then
+				break
+			fi
+			echo -n "Do you want to reinstaled it? (yes/no) "
+			read operation_code
+		done
+	else
+		# just install 
+		install_docker_from_repo
+		echo -e "\n\n docker installation is successful ! \n\n"
+	fi 
+
 else
-	install_docker_from_repo
-	echo -e "\n\n docker installation is successful ! \n\n"
-fi 
+	# remove
+	remove_docker
+	echo -e "\n\n Docker remove is successful ! \n\n"
+fi
+
 
 # END
-echo -e "\n start docker: sudo systemctl start docker \n"
-echo -e "\n Verify that Docker Engine: sudo docker run hello-world \n"
+echo -e "--------------------------------------------------------"
+echo -e "View docker status: sudo systemctl status docker"
+echo -e "Start docker: sudo systemctl start docker"
+echo -e "Verify that Docker Engine: sudo docker run hello-world"
+echo -e "--------------------------------------------------------"
 
