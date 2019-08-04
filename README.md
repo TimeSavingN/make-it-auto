@@ -1,24 +1,26 @@
 # make-it-auto
 Automatic script
 
-- System Settings
-  - sources.list
-  - Time zone
-- System Tools
-  - sudo
-  - system utils
-  - make, systemctl, wget, curl, grep, pgrep, pgrep, git
-  - vim
-  - python
+- [x] System Basic
+  - System Settings
+    - sources.list
+    - Time zone
+  - System Tools
+    - sudo
+    - system utils
+    - make, systemctl, wget, curl, grep, pgrep, pgrep, git
+    - vim
+    - python
 - System Services
   - Shadowsocks
+  - V2ray
 - Develop Tools
-  - Common
-    - Git
   - Java
     - JDK
     - Maven
 - Develop Services
+  - Cache
+    - Redis
   - Database
     - MySQL
   - Web Server
@@ -26,13 +28,16 @@ Automatic script
     - Apache
     - Apache Tomcat
   - DevOps
-    - Docker
+    - [x] Docker
+    - Jenkins
+- Develop Setting
+  - HTTPS
 - Others
   - [Bash Helper](bash-helper)
 
 
 
-### System
+### System Basic
 
 - [system-initial-settings-and-tools.sh](system-tools/system-initial-settings-and-tools.sh)
 
