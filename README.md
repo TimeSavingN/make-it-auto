@@ -30,6 +30,12 @@ Automatic script
 - Others
   - [Bash Helper](bash-helper)
 
+
+
+### System
+
+- [system-initial-settings-and-tools.sh](system-tools/system-initial-settings-and-tools.sh)
+
 ### Docker
 
 - [docker-install-from-repository-linux.sh](develop-services/docker-install-from-repository-linux.sh)
