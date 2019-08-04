@@ -128,6 +128,7 @@ backup_filepath /etc/apt/sources.list
 
 ```shell
 # apt update
+# import get_package_manager()
 function apt_update
 {
 	echo -e "\n\n apt update... \n\n"
@@ -139,6 +140,9 @@ function apt_update
     fi
     echo -e "\n\n apt update is finished ! \n\n"
 }
+
+# call
+apt_update
 ```
 
 
@@ -151,7 +155,7 @@ function apt_update
 
 ```shell
 # Set sources.list
-# import backup_filepath
+# import backup_filepath()
 function set_sources_list
 {
     server_location='inland'
@@ -201,6 +205,8 @@ echo "ending"
 ```shell
 timedatectl status
 timedatectl list-timezones
+
+# set time zone
 function set_time_zone
 {
     if [ -z "$(timedatectl | grep +08)" ]; then
@@ -211,7 +217,7 @@ function set_time_zone
     fi
 }
 
-
+# set time zone
 function set_time_zone
 {
     if [ -z $(date +"%Z %z" | grep +08) ]; then
