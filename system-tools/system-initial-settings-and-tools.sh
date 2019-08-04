@@ -72,6 +72,7 @@ deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted univer
     fi
 }
 
+# set time zone
 function set_time_zone
 {
     if [ -z "$(timedatectl | grep +08)" ]; then
@@ -150,7 +151,7 @@ if ! [ -x "$(command -v sudo)" ]; then
 fi
 
 
-# !. System Settings
+# 1. System Settings
 
 # 1.1 Set sources.list
 set_sources_list
