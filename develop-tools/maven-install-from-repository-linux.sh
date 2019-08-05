@@ -57,11 +57,10 @@ sed -i '/<mirrors>/ a <mirror> \
 <url>http://maven.aliyun.com/nexus/content/groups/public/</url> \
 <mirrorOf>central</mirrorOf> \
 </mirror>' $config_file
+			echo -e "\n\n Cinfig maven is successful ! \n\n"
 		else
 			echo -e "\n\n You are already config aliyun mirror ! \n\n"
 		fi
-		
-		echo -e "\n\n Cinfig maven is successful ! \n\n"
 	else
 		echo -e "\n\n You are in abroad, not need to config aliyun mirror! \n\n"
 	fi
