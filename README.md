@@ -16,20 +16,20 @@ Automatic script
   - V2ray
 - Develop Tools
   - Java
-    - JDK
-    - Maven
+    - [ ] JDK
+    - [ ] Maven
 - Develop Services
   - Cache
-    - Redis
+    - [ ] Redis
   - Database
-    - MySQL
+    - [ ] MySQL
   - Web Server
-    - Nginx
+    - [ ] Nginx
     - Apache
     - Apache Tomcat
   - DevOps
     - [x] Docker
-    - Jenkins
+    - [ ] Jenkins
 - Develop Setting
   - HTTPS
 - Others
@@ -41,7 +41,17 @@ Automatic script
 
 - [system-initial-settings-and-tools.sh](system-tools/system-initial-settings-and-tools.sh)
 
-### Docker
+### Develop Tools
+
+#### JDK
+
+[open-jdk-1.8-install-from-repository-linux.sh](develop-tools/open-jdk-1.8-install-from-repository-linux.sh)
+
+jdk-1.8-install-from-offline-package-linux.sh
+
+### Develop Services
+
+#### Docker
 
 - [docker-install-from-repository-linux.sh](develop-services/docker-install-from-repository-linux.sh)
 
