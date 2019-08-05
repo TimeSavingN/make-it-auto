@@ -31,7 +31,7 @@ package_manager=$(get_package_manager)
 echo -e "\n\n Package manager is $package_manager ! \n\n"
 
 # check is installed
-if [ -n "$(java -version | grep '1.8')" ]; then
+if ! [ -x "$(command -v java)" ]; then
 	# yum
 	if [ "$package_manager" = "yum" ]; then
 		# 1. Search OpenJDK Packages
@@ -72,7 +72,8 @@ if [ -n "$(java -version | grep '1.8')" ]; then
 		echo -e "\n\n install JDK 1.8 is successful ! \n\n"
 	fi
 else
-	echo -e "\n\n You already install java 1.8 ! \n\n"
+	echo -e "\n\n You already install java! \n\n"
+	java -version
 fi
 
 
