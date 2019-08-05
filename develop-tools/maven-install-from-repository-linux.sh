@@ -51,17 +51,12 @@ function config_maven
 	if [ "$server_location" = "inland" ]; then
 		if [ -z $(grep "maven.aliyun.com" "$config_file") ]; then
 			backup_filepath $config_file
-awk '
-{ print }
-/<mirrors>/ {
-    print "<mirror>"
-    print "<id>alimaven</id>"
-    print "<name>aliyun maven</name>"
-    print "<url>http://maven.aliyun.com/nexus/content/groups/public/</url>"
-    print "<mirrorOf>central</mirrorOf>"
-    print "</mirror>"
-}
-' $config_file 
+sed -i '/<mirrors>/ a <mirror> \
+<id>alimaven</id> \
+<name>aliyun maven</name> \
+<url>http://maven.aliyun.com/nexus/content/groups/public/</url> \
+<mirrorOf>central</mirrorOf> \
+</mirror>' $config_file
 		else
 			echo -e "\n\n You are already config aliyun mirror ! \n\n"
 		fi
