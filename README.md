@@ -45,11 +45,20 @@ Automatic script
 
 #### JDK
 
-[open-jdk-1.8-install-from-repository-linux.sh](develop-tools/open-jdk-1.8-install-from-repository-linux.sh)
+- [open-jdk-1.8-install-from-repository-linux.sh](develop-tools/open-jdk-1.8-install-from-repository-linux.sh)
 
-jdk-1.8-install-from-offline-package-linux.sh
+- [ ] jdk-1.8-install-from-offline-package-linux.sh
+
+#### Maven
+
+- [ ] [maven-install-from-repository-linux.sh](develop-tools/maven-install-from-repository-linux.sh)
 
 ### Develop Services
+
+#### Redis
+
+- [ ] redis-install-from-repository-linux.sh
+- [ ] redis-install-from-online-source-linux.sh
 
 #### Docker
 
