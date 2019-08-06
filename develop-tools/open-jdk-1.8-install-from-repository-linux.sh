@@ -66,7 +66,7 @@ if ! [ -x "$(command -v java)" ]; then
 		java -version
 		
 		# 4. Set JAVA_HOME
-		echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/" >> /etc/environment
+		echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> /etc/environment
 		source /etc/environment
 		echo -e "\n\n Your JAVA_HOME is $JAVA_HOME \n\n"
 		echo -e "\n\n install JDK 1.8 is successful ! \n\n"
