@@ -28,31 +28,16 @@ function install_ufw
 	package_manager=$(get_package_manager)
 	echo -e "\n\n Package manager is $package_manager ! \n\n"
 
-	echo -e "\n\n Install ufw ... \n\n"
-	sudo $package_manager install -y ufw
-	echo -e "\n\n Install ufw is successful ! .. \n\n"
-	ufw status # inactive
+	if [ -x "$(command -v ufw)" ]; then
+		echo -e "\n\n ufw is alredy installed ! \n\n"
+	else
+		echo -e "\n\n Install ufw ... \n\n"
+		sudo $package_manager install -y ufw
+		echo -e "\n\n Install ufw is successful ! .. \n\n"
+		sudo ufw status # inactive
+	fi
 }
 
-function config_ufw
-{
-	echo -e "\n\n Config ufw ... \n\n"
-	# Flush the tables to apply changes
-	iptables -F
-	# reset rules
-	ufw reset
-	# set default
-	ufw default deny incoming
-	ufw default allow outgoing
-	# add allow
-	ufw allow OpenSSH
-	ufw allow http
-	ufw allow https
-	# enable ufw
-	ufw enable
-	ufw status # active
-	echo -e "\n\n Config ufw is successful ! ... \n\n"
-}
 
 function restart_sys
 {
@@ -68,8 +53,47 @@ function restart_sys
 		fi
 		echo -n "Please input yes or no. Restart now?(yes/no) "
 		read op_code
-	doen
+	done
 }
+
+
+function config_ufw
+{	
+	sudo ufw status
+	echo -e "\n\n Config ufw ... \n\n"
+	# Flush the tables to apply changes
+	sudo iptables -F
+	# reset rules
+	sudo ufw reset
+	# set default
+	sudo ufw default deny incoming
+	sudo ufw default allow outgoing
+	# add allow
+	sudo ufw allow 22/tcp
+	sudo ufw allow 80/tcp
+	sudo ufw allow 443/tcp
+	# enable ufw
+	sudo ufw enable
+	echo -e "\n\n Config ufw is successful ! ... \n\n"
+	sudo ufw status # active
+	
+	# disable firewalld on CentOS/RHEL
+	package_manager=$(get_package_manager)
+	if [ "$package_manager" = "yum" ]; then
+		echo -e "\n\n disable firewalld on CentOS/RHEL \n\n"
+		sudo service firewalld stop
+		sudo systemctl disable firewalld.service
+		sudo service firewalld status
+		echo -e "\n\n disable firewalld is successful ! \n\n"
+	fi
+	
+	# enable ufw automatically on boot
+	sudo systemctl enable ufw
+	
+	# restart system make ufw rules work
+	restart_sys
+}
+
 # -------------------------------------
 # main
 # -------------------------------------
@@ -86,7 +110,3 @@ echo -e "\n\n All is done! \n\n"
 echo -e "--------------------------------------------------------"
 echo -e "View ufw status: sudo ufw status"
 echo -e "--------------------------------------------------------\n\n"
-
-
-# restart system make it work
-restart_sys
