@@ -32,6 +32,32 @@ function check_service_is_installed
 # my functions
 # -------------------------------------
 
+function install_redis
+{
+	echo -e "\n\n Install redis ... \n\n"
+	if [ "$package_manager" = apt ]; then
+		# install
+		sudo apt install -y redis-server
+		# config
+		sudo sed -i 's/^supervised no$/supervised systemd/' /etc/redis/redis.conf
+	fi
+	if [ "$package_manager" = yum ]; then
+		# Add the EPEL repository, and update YUM to confirm your change
+		sudo yum install epel-release
+		sudo yum update
+		# Install Redis
+		sudo yum install -y redis
+		# config
+		sudo sed -i 's/^supervised no$/supervised systemd/' /etc/redis.conf
+	fi
+	
+	sudo systemctl restart redis
+	sudo systemctl enable redis
+	sudo systemctl status redis
+	
+	echo -e "\n\n Install redis is successful ! \n\n"
+}
+
 
 # -------------------------------------
 # main
@@ -45,11 +71,7 @@ sudo $package_manager update
 # install
 service_name=redis-server
 if ! [ "$(check_service_is_installed $service_name)" = true ]; then
-	echo -e "\n\n Install redis ... \n\n"
-	sudo $package_manager install -y redis-server
-	sudo sed -i 's/^supervised no$/supervised systemd/' /etc/redis/redis.conf
-	sudo systemctl restart redis
-	echo -e "\n\n Install redis is successful ! \n\n"
+	install_redis
 else
 	echo -e "\n\n $service_name service is installed ! \n\n"
 fi
