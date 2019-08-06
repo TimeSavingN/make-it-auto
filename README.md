@@ -40,6 +40,7 @@ Automatic script
 ### System Basic
 
 - [system-initial-settings-and-tools.sh](system-tools/system-initial-settings-and-tools.sh)
+- [system-initial-settings-and-tools.sh](system-settings/system-initial-settings-and-tools.sh)
 
 ### Develop Tools
 
