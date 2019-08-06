@@ -66,8 +66,7 @@ function check_tool_exist
 
 # call
 tool_name=<tool_name>
-is_exist=$(check_tool_exist $tool_name)
-if ! [ "$is_exist" = true ]; then
+if ! [ "$(check_tool_exist $tool_name)" = true ]; then
 	echo -e "\n\n $tool_name tool is not exist ! \n\n"
 fi 
 ```
@@ -90,8 +89,7 @@ function check_service_is_installed
 
 # call
 service_name=<service_name>
-is_installed=$(check_service_is_installed $service_name)
-if ! [ "$is_installed" = true ]; then
+if ! [ "$(check_service_is_installed $service_name)" = true ]; then
 	echo -e "\n\n $service_name service is not installed ! \n\n"
 fi 
 ```
