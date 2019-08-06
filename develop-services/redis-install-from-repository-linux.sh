@@ -43,7 +43,7 @@ function install_redis
 	fi
 	if [ "$package_manager" = yum ]; then
 		# Add the EPEL repository, and update YUM to confirm your change
-		sudo yum install epel-release
+		sudo yum install -y epel-release
 		sudo yum update
 		# Install Redis
 		sudo yum install -y redis
