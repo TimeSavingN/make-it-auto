@@ -16,11 +16,11 @@ Automatic script
   - V2ray
 - Develop Tools
   - Java
-    - [ ] JDK
-    - [ ] Maven
+    - [x] JDK
+    - [x] Maven
 - Develop Services
   - Cache
-    - [ ] Redis
+    - [x] Redis
   - Database
     - [ ] MySQL
   - Web Server
@@ -52,13 +52,13 @@ Automatic script
 
 #### Maven
 
-- [ ] [maven-install-from-repository-linux.sh](develop-tools/maven-install-from-repository-linux.sh)
+- [maven-install-from-repository-linux.sh](develop-tools/maven-install-from-repository-linux.sh)
 
 ### Develop Services
 
 #### Redis
 
-- [ ] [redis-install-from-repository-linux.sh](develop-services/redis-install-from-repository-linux.sh)
+- [redis-install-from-repository-linux.sh](develop-services/redis-install-from-repository-linux.sh)
 - [ ] redis-install-from-online-source-linux.sh
 
 #### Docker
