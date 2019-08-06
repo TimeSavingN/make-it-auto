@@ -58,7 +58,7 @@ Automatic script
 
 #### Redis
 
-- [ ] redis-install-from-repository-linux.sh
+- [ ] [redis-install-from-repository-linux.sh](develop-services/redis-install-from-repository-linux.sh)
 - [ ] redis-install-from-online-source-linux.sh
 
 #### Docker
