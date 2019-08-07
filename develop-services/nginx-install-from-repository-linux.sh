@@ -38,12 +38,12 @@ function apt_update
 function install_nginx
 {
 	if [ "$package_manager" = apt ]; then
-		sudo apt-get install nginx
+		sudo apt-get install -y nginx
 	fi
 	
 	if [ "$package_manager" = yum ]; then
-		sudo yum install epel-release
-		sudo yum install nginx
+		sudo yum install -y epel-release
+		sudo yum install -y nginx
 	fi
 	
 	sudo systemctl enable nginx
