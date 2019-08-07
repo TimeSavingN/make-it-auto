@@ -88,7 +88,7 @@ Automatic script
 
 ##### Nginx
 
-- nginx-install
+- [nginx-install-from-repository-linux.sh](develop-services/nginx-install-from-repository-linux.sh)
 
 #### DevOps
 
