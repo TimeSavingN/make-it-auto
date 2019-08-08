@@ -54,6 +54,15 @@ function install_redis
 	sudo systemctl restart redis
 	sudo systemctl enable redis
 	sudo systemctl status redis
+		
+	# Fix Cannot allocate memory
+	sysctl_file=/etc/sysctl.conf
+	if [ -n "$(grep 'vm.overcommit_memory' $sysctl_file)" ]
+		# remove
+		sed -i "/\b\(vm.overcommit_memory\)\b/d" $sysctl_file
+	fi
+	echo "vm.overcommit_memory=1" | sudo tee -a $sysctl_file
+	echo -e "Config vm.overcommit_memory is successful ! "
 	
 	echo -e "\n\n Install redis is successful ! \n\n"
 }
