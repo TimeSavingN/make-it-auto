@@ -10,6 +10,8 @@
 - Operation
   - Backup File Path
   - Apt Update
+  - Get Yes/No Answer From Terminal Input
+  - Get number of range from Terminal Input
 - System Settings
   - Set sources.list
   - Set Time Zone
@@ -141,6 +143,63 @@ function apt_update
 
 # call
 apt_update
+```
+
+
+
+### 2.3 Get Yes/No Answer From Terminal
+
+```shell
+# Get Valid Answer From Terminal
+# return: $answer
+function get_valid_answer
+{
+	message="$1 (yes/no): "
+	echo -n "$message"
+	read answer
+	while true; do
+		if [ "$answer" = "yes" ] || [ "$answer" = "no" ]; then
+			break;
+		else
+			echo -n $message
+			read answer
+		fi
+	done
+}
+
+# call
+question="Do you want to remove package?"
+get_valid_answer "$question"
+echo -e "answer is $answer"
+```
+
+
+
+### 2. 4 Get number of range from Terminal Input
+
+```shell
+# Get number of range from Terminal Input
+# return $answer_num
+function get_number_of_range
+{
+	min=$2
+	max=$3
+    message="$1. Input ($min~$max): "
+	echo -n "$message"
+	read answer_num
+	while true; do
+		if [ "$answer_num" -ge "$min" ] && [ "$answer_num" -le "$max" ]; then
+			break;
+		else
+			echo -n $message
+			read answer_num
+		fi
+	done
+}
+
+# call
+get_number_of_range "Select your install version?" 1 7
+echo -e "answer is $answer_num"
 ```
 
 
