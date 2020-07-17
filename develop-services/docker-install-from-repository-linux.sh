@@ -90,6 +90,7 @@ function install_docker_from_repo
 		# 2. Install the latest version of Docker Engine - Community
 		sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 	fi
+	sudo systemctl enable docker
 }
 
 
