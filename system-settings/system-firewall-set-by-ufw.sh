@@ -32,10 +32,10 @@ function install_ufw
 		echo -e "\n\n ufw is alredy installed ! \n\n"
 	else
 		echo -e "\n\n Install ufw ... \n\n"
-		if [ "$package_manager" = "yum" ]; then
+		if [ "$package_manager" = "apt" ]; then
 			sudo apt-get install ufw -y
 		fi
-		if [ "$package_manager" = "apt" ]; then
+		if [ "$package_manager" = "yum" ]; then
 			# By default, UFW is not available in CentOS repository. So you will need to install the EPEL repository to your system. 
 			sudo yum install epel-release -y
 			# install UFW
