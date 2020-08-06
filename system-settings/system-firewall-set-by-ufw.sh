@@ -42,17 +42,6 @@ function install_ufw
 			sudo yum install --enablerepo="epel" ufw -y
 		fi
 		echo -e "\n\n Install ufw is successful ! .. \n\n"
-		
-		
-		# enable UFW firewall
-		sudo ufw enable 
-		
-		# check the status of UFW
-		sudo ufw status # inactive
-
-		# enable ufw service automatically on boot
-		sudo systemctl enable ufw
-
 	fi
 }
 
@@ -77,45 +66,53 @@ function restart_sys
 
 function config_ufw
 {	
-	# view ufw enable ip and port status
-	sudo ufw status
+	echo -e "\n\n Starting to config UFW... \n\n"
 
-	echo -e "\n\n Config ufw ... \n\n"
+	echo -e "\n Enable UFW service automatically on boot \n"
+	sudo systemctl enable ufw
+
+	echo -e "\n Check status of UFW. View enable ip and port status\n"
+	sudo ufw status # inactive
+
 	
-	# Flush the tables to apply changes
+	echo -e "\n Flush the tables to apply changes \n"
 	sudo iptables -F
 	
-	# reset rules
+	echo -e "\n UFW rules reset \n"
 	sudo ufw reset
 	
-	# set default
+	echo -e "\n set UFW default deny and allow \n"
 	sudo ufw default deny incoming
 	sudo ufw default allow outgoing
 	
-	# add allow
+	echo -e "\n set UFW allow 22,80,443 \n"
 	sudo ufw allow 22/tcp
 	sudo ufw allow 80/tcp
 	sudo ufw allow 443/tcp
 	
-	# enable ufw firewall
-	sudo ufw enable
+	echo -e "\n Check status of UFW. View enable ip and port status\n"
+	sudo ufw status
 
-	# view ufw enable ip and port status
-	sudo ufw status 
+	# enable UFW firewall.
+	# the following command will lose current ssh connection.
+	# sudo ufw enable 
+	
 
 	echo -e "\n\n Config ufw is successful ! ... \n\n"
-	echo -e "\nufw open 22/tcp, 80/tcp, 443/tcp.\n"
+	echo -e "\n ufw open 22/tcp, 80/tcp, 443/tcp.\n"
 	
+
 	# disable firewalld on CentOS/RHEL
 	package_manager=$(get_package_manager)
 	if [ "$package_manager" = "yum" ]; then
-		echo -e "\n\n disable firewalld on CentOS/RHEL \n\n"
+		echo -e "\n\n Starting to disable firewalld on CentOS/RHEL \n\n"
 		sudo systemctl disable firewalld.service
 		
 		# The following command will lose current ssh session, and make ssh connect fail.
 		# Using service disable and OS restart is enough 
 		# sudo service firewalld stop
 		
+		echo -e "\n firewalld service status \n"
 		sudo service firewalld status
 		
 		echo -e "\n\n disable firewalld is successful ! \n\n"
