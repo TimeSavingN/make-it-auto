@@ -40,13 +40,19 @@ function install_ufw
 			sudo yum install epel-release -y
 			# install UFW
 			sudo yum install --enablerepo="epel" ufw -y
-			# start UFW service and enable it to start on boot time
-			sudo ufw enable 
-			# check the status of UFW
-			sudo ufw status
 		fi
 		echo -e "\n\n Install ufw is successful ! .. \n\n"
+		
+		
+		# enable UFW firewall
+		sudo ufw enable 
+		
+		# check the status of UFW
 		sudo ufw status # inactive
+
+		# enable ufw service automatically on boot
+		sudo systemctl enable ufw
+
 	fi
 }
 
@@ -71,36 +77,50 @@ function restart_sys
 
 function config_ufw
 {	
+	# view ufw enable ip and port status
 	sudo ufw status
+
 	echo -e "\n\n Config ufw ... \n\n"
+	
 	# Flush the tables to apply changes
 	sudo iptables -F
+	
 	# reset rules
 	sudo ufw reset
+	
 	# set default
 	sudo ufw default deny incoming
 	sudo ufw default allow outgoing
+	
 	# add allow
 	sudo ufw allow 22/tcp
 	sudo ufw allow 80/tcp
 	sudo ufw allow 443/tcp
-	# enable ufw
+	
+	# enable ufw firewall
 	sudo ufw enable
+
+	# view ufw enable ip and port status
+	sudo ufw status 
+
 	echo -e "\n\n Config ufw is successful ! ... \n\n"
-	sudo ufw status # active
+	echo -e "\nufw open 22/tcp, 80/tcp, 443/tcp.\n"
 	
 	# disable firewalld on CentOS/RHEL
 	package_manager=$(get_package_manager)
 	if [ "$package_manager" = "yum" ]; then
 		echo -e "\n\n disable firewalld on CentOS/RHEL \n\n"
-		sudo service firewalld stop
 		sudo systemctl disable firewalld.service
+		
+		# The following command will lose current ssh session, and make ssh connect fail.
+		# Using service disable and OS restart is enough 
+		# sudo service firewalld stop
+		
 		sudo service firewalld status
+		
 		echo -e "\n\n disable firewalld is successful ! \n\n"
 	fi
 	
-	# enable ufw automatically on boot
-	sudo systemctl enable ufw
 	
 	# restart system make ufw rules work
 	restart_sys
