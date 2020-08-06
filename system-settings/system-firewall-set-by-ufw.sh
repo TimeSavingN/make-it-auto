@@ -93,9 +93,6 @@ function config_ufw
 	echo -e "\n Check status of UFW. View enable ip and port status\n"
 	sudo ufw status
 
-	# enable UFW firewall.
-	# the following command will lose current ssh connection.
-	# sudo ufw enable 
 	
 
 	echo -e "\n\n Config ufw is successful ! ... \n\n"
@@ -112,14 +109,24 @@ function config_ufw
 		# Using service disable and OS restart is enough 
 		# sudo service firewalld stop
 		
-		echo -e "\n firewalld service status \n"
-		sudo service firewalld status
+		# echo -e "\n firewalld service status \n"
+		# sudo service firewalld status
 		
 		echo -e "\n\n disable firewalld is successful ! \n\n"
 	fi
 	
-	
-	# restart system make ufw rules work
+	echo -e "\n\n UFW config successfully! \n\n"
+
+	echo -e "\n Tip: View iptables by run: iptables -L -n \n"
+
+	echo -e "\n\n You need to restart the operating system to make the UFW works! \n\n"
+
+	# enable UFW firewall
+	# the following command will lose current ssh connection.
+	echo -e "\n\n To enable UFW config. Answer yes!\n Note: You may lose the current ssh connection session soon! \n\n"
+	sudo ufw enable
+
+	echo -e "\n To restart the operating system make ufw rules work \n"
 	restart_sys
 }
 
