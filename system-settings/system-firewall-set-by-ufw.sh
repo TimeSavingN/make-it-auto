@@ -121,7 +121,7 @@ function config_ufw
 
 	echo -e "\n\n You need to restart the operating system to make the UFW works! \n\n"
 
-	# enable UFW firewall
+	# starting UFW firewall
 	# the following command will lose current ssh connection.
 	echo -e "\n\n To enable UFW config. Answer yes!\n Note: You may lose the current ssh connection session soon! \n\n"
 	sudo ufw enable
