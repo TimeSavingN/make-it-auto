@@ -10,7 +10,7 @@ function get_package_manager
 {
 	local package_manager=apt
     if [ -x "$(command -v yum)" ]; then
-        package_manager=yum	
+        package_manager=yum
     fi
 	# return
 	echo "$package_manager"
@@ -36,7 +36,7 @@ function install_ufw
 			sudo apt-get install ufw -y
 		fi
 		if [ "$package_manager" = "yum" ]; then
-			# By default, UFW is not available in CentOS repository. So you will need to install the EPEL repository to your system. 
+			# By default, UFW is not available in CentOS repository. So you will need to install the EPEL repository to your system.
 			sudo yum install epel-release -y
 			# install UFW
 			sudo yum install --enablerepo="epel" ufw -y
@@ -63,9 +63,27 @@ function restart_sys
 	done
 }
 
+function add_more_allowed_ports
+{
+  echo -n "Please enter allow ports or enter done?({portNumber}/done) "
+  read op_code
+  while true; do
+   if [ "$op_code" = "done" ]; then
+     echo "done"
+     break
+   fi
+   if [ "$op_code" != "done" ]; then
+     sudo ufw allow $op_code
+     echo "allow $op_code"
+   fi
+   echo -n "Please enter allow ports or enter done?({portNumber}/done) "
+   read op_code
+  done
+
+}
 
 function config_ufw
-{	
+{
 	echo -e "\n\n Starting to config UFW... \n\n"
 
 	echo -e "\n Enable UFW service automatically on boot \n"
@@ -74,47 +92,49 @@ function config_ufw
 	echo -e "\n Check status of UFW. View enable ip and port status\n"
 	sudo ufw status # inactive
 
-	
+
 	echo -e "\n Flush the tables to apply changes \n"
 	sudo iptables -F
-	
+
 	echo -e "\n UFW rules reset \n"
 	sudo ufw reset
-	
+
 	echo -e "\n set UFW default deny and allow \n"
 	sudo ufw default deny incoming
 	sudo ufw default allow outgoing
-	
+
 	echo -e "\n set UFW allow 22,80,443 \n"
 	sudo ufw allow 22/tcp
 	sudo ufw allow 80/tcp
 	sudo ufw allow 443/tcp
-	
+
+	add_more_allowed_ports
+
 	echo -e "\n Check status of UFW. View enable ip and port status\n"
 	sudo ufw status
 
-	
+
 
 	echo -e "\n\n Config ufw is successful ! ... \n\n"
 	echo -e "\n ufw open 22/tcp, 80/tcp, 443/tcp.\n"
-	
+
 
 	# disable firewalld on CentOS/RHEL
 	package_manager=$(get_package_manager)
 	if [ "$package_manager" = "yum" ]; then
 		echo -e "\n\n Starting to disable firewalld on CentOS/RHEL \n\n"
 		sudo systemctl disable firewalld.service
-		
+
 		# The following command will lose current ssh session, and make ssh connect fail.
-		# Using service disable and OS restart is enough 
+		# Using service disable and OS restart is enough
 		# sudo service firewalld stop
-		
+
 		# echo -e "\n firewalld service status \n"
 		# sudo service firewalld status
-		
+
 		echo -e "\n\n disable firewalld is successful ! \n\n"
 	fi
-	
+
 	echo -e "\n\n UFW config successfully! \n\n"
 
 	echo -e "\n Tip: View iptables by run: iptables -L -n \n"
