@@ -38,7 +38,7 @@
 - Develop Settings
   - [ ] HTTPS
 - Others
-  - [Bash Helper](bash-helper)
+  - [Bash Helper](_bash-helper)
 
 
 
@@ -46,8 +46,8 @@
 
 ## System Settings
 
-- [system-initial-settings-and-tools.sh](system-tools/system-initial-settings-and-tools.sh)
-- [system-firewall-set-by-ufw.sh](system-settings/system-firewall-set-by-ufw.sh)
+- [system-initial-settings-and-tools.sh](system-initialize/system-initial-settings-and-tools.sh)
+- [system-firewall-set-by-ufw.sh](system-firewall/system-firewall-set-by-ufw.sh)
 
 ### System Basic Settings
 
@@ -307,13 +307,13 @@ sudo ufw status
 
 ##### JDK
 
-- [open-jdk-1.8-install-from-repository-linux.sh](develop-tools/open-jdk-1.8-install-from-repository-linux.sh)
+- [open-jdk-1.8-install-from-repository-linux.sh](jdk/open-jdk-1.8-install-from-repository-linux.sh)
 
 - jdk-1.8-install-from-offline-package-linux.sh
 
 ##### Maven
 
-- [maven-install-from-repository-linux.sh](develop-tools/maven-install-from-repository-linux.sh)
+- [maven-install-from-repository-linux.sh](maven/maven-install-from-repository-linux.sh)
 
 #### PHP
 
@@ -325,7 +325,7 @@ sudo ufw status
 
 ##### Redis
 
-- [redis-install-from-repository-linux.sh](develop-services/redis-install-from-repository-linux.sh)
+- [redis-install-from-repository-linux.sh](redis/redis-install-from-repository-linux.sh)
 - redis-install-from-online-source-linux.sh
 
 #### Database
@@ -338,7 +338,7 @@ sudo ufw status
 
 ##### Nginx
 
-- [nginx-install-from-repository-linux.sh](develop-services/nginx-install-from-repository-linux.sh)
+- [nginx-install-from-repository-linux.sh](nginx/nginx-install-from-repository-linux.sh)
 
 #### DevOps
 
