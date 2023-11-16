@@ -2,7 +2,7 @@
 
 function add_env_variable
 {
-	echo "key: $1, value: $2"
+	echo "Add environment variable: export $1=$2"
 	cp /etc/profile "/etc/profile.bak.$(date '+%Y-%m-%d_%H-%M-%S')"
   echo "export $1=$2" >> /etc/profile
   cat /etc/profile
