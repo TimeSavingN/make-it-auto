@@ -4,6 +4,14 @@
 # -------------------------------------
 # common functions
 # -------------------------------------
+function add_env_variable
+{
+	echo "Add environment variable - key: $1, value: $2"
+	cp /etc/profile /etc/profile.bak.$(date '+%Y-%m-%d_%H-%M-%S')
+  echo "export $1=$2" >> /etc/profile
+  cat /etc/profile
+  source /etc/profile
+}
 
 # Backup File Path
 function backup_filepath
@@ -39,14 +47,14 @@ function set_sources_list
 {
     server_location='inland'
     ping -c 1 -w 5 google.com
-    if [ $? -eq 0 ]; then 
+    if [ $? -eq 0 ]; then
         server_location='abroad'
     fi
     echo -e "\n\n Server location is $server_location ! \n\n"
     source_path=/etc/apt/sources.list
 	if [ "$server_location" = "inland" ]; then
 		if [ -f $source_path ]; then
-			if ! [[ -n $(sudo grep "http://mirrors.aliyun.com/ubuntu/" $source_path) ]]; then 
+			if ! [[ -n $(sudo grep "http://mirrors.aliyun.com/ubuntu/" $source_path) ]]; then
 				backup_filepath $source_path
 echo "
 deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
@@ -77,7 +85,7 @@ function set_time_zone
 {
     if [ -z "$(timedatectl | grep +08)" ]; then
         timedatectl set-timezone Asia/Shanghai
-        echo -e "\n\n Set timezone to +08 is successful ! \n Now the datetime is $(date). \n\n"	
+        echo -e "\n\n Set timezone to +08 is successful ! \n Now the datetime is $(date). \n\n"
     else
         echo -e "\n\n Timezone is already +08 ! \n\n"
     fi
@@ -89,7 +97,7 @@ function get_package_manager
 {
 	local package_manager=apt
     if [ -x "$(command -v yum)" ]; then
-        package_manager=yum	
+        package_manager=yum
     fi
 	# return
 	echo "$package_manager"
@@ -109,13 +117,13 @@ function config_vim
             echo "
 :set number
 
-set tabstop=4       
-set shiftwidth=4    
-set softtabstop=4   
-set expandtab      
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
 
-set autoindent     
-set cindent        
+set autoindent
+set cindent
 
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8
@@ -156,8 +164,11 @@ fi
 # 1.1 Set sources.list
 set_sources_list
 
-# 1.2 Set Timezone
+# 1.2 Set Timezone to +08 (Asia/Shanghai)
 set_time_zone
+
+# 1.3 Set less using utf-8 character encoding
+add_env_variable "LESSCHARSET" "utf-8"
 
 # 2.  System Tools
 
@@ -166,11 +177,11 @@ apt_update
 
 # 2.2 system utils
 echo -e "\n\n system utils installation ... \n\n"
-if [ "$package_manager" = "yum" ]; then 
+if [ "$package_manager" = "yum" ]; then
 	sudo yum -y install yum-utils
 	sudo yum -y groupinstall development
 else
-	sudo tasksel --task-package standard 
+	sudo tasksel --task-package standard
 fi
 echo -e "\n\n system utils installation finished ! \n\n"
 
@@ -184,14 +195,14 @@ fi
 # install python3
 if ! [ -x "$(command -v python)" ]; then
 	echo -e "\n\n Install python... \n\n"
-	if [ "$package_manager" = "yum" ]; then 
+	if [ "$package_manager" = "yum" ]; then
 		# IUS Community repositories
 		sudo yum -y install https://centos7.iuscommunity.org/ius-release.rpm
-		sudo yum -y install python36u python36u-pip 
+		sudo yum -y install python36u python36u-pip
 		sudo yum -y python36u-devel
 	else
 		# Installing Python 3.6.4 from the Debian testing repository
-		debian_test_repo="deb http://ftp.de.debian.org/debian testing main" 
+		debian_test_repo="deb http://ftp.de.debian.org/debian testing main"
 		if ! [[ -n $(cat /etc/apt/sources.list | grep "$debian_test_repo") ]]; then
 			sudo echo "$debian_test_repo" >> /etc/apt/sources.list
 		fi
